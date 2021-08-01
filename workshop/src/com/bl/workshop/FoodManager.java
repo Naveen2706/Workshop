@@ -1,6 +1,7 @@
 package com.bl.workshop;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FoodManager {
     static FoodManager instance;
@@ -79,10 +80,10 @@ public class FoodManager {
     }
 
     void print() {
-        for (FoodItem element : foodList) {
-            System.out.println(element);
-        }
-
+//        for (FoodItem element : foodList) {
+//            System.out.println(element);
+//        }
+        foodList.stream().forEach(System.out::println);
     }
 
     public void delete(FoodItem foodItem) {
@@ -94,13 +95,13 @@ public class FoodManager {
     }
 
     public void printAllVegItem() {
-        System.out.println("Printing all veg items");
-        for (FoodItem element : foodList) {
-            if (element instanceof IVeg) {
-                System.out.println(element);
-            }
-        }
-
+//        System.out.println("Printing all veg items");
+//        for (FoodItem element : foodList) {
+//            if (element instanceof IVeg) {
+//                System.out.println(element);
+//            }
+//        }
+        foodList.stream().filter(item -> (item.type.equals(item.type.NONVEG))).forEach(System.out::println);
     }
 
     public void printAllNonVegItem() {
@@ -113,18 +114,19 @@ public class FoodManager {
     }
 
     FoodItem getFoodItem(String name) {
-        Iterator iterator = foodList.iterator();
-        if (iterator.hasNext()) {
-            for (int i = 0; i < foodList.size(); i++) {
-                if (iterator.hasNext()) {
-                    FoodItem fooditem = (FoodItem) iterator.next();
-                    if (fooditem.name.equalsIgnoreCase(name)) {
-                        return fooditem;
-                    }
-                }
-            }
-        }
-        return null;
+//        Iterator iterator = foodList.iterator();
+//        if (iterator.hasNext()) {
+//            for (int i = 0; i < foodList.size(); i++) {
+//                if (iterator.hasNext()) {
+//                    FoodItem fooditem = (FoodItem) iterator.next();
+//                    if (fooditem.name.equalsIgnoreCase(name)) {
+//                        return fooditem;
+//                    }
+//                }
+//            }
+//        }
+        List<FoodItem> food = foodList.stream().filter(foodList -> foodList.name.equalsIgnoreCase(name)).collect(Collectors.toList());
+        return food.get(0);
     }
 
 
@@ -139,6 +141,4 @@ public class FoodManager {
             delete(foodItem);
         }
     }
-
-
 }

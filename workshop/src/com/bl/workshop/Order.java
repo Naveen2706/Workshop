@@ -1,24 +1,93 @@
 package com.bl.workshop;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
-    enum PaymentMethod {DEBIT_CARD, CREDIT_CARD, COD, UPI, NET_BANKING, WALLET}
+    enum PaymentMethods {COD, CREDIT_CARD, DEBIT_CARD, NET_BANKING, UPI, WALLET}
 
-    String deliveryAddress;
-    String customerName;
+    enum OrderStatus {WAITING, CANCELLED, ORDER_PREPARED, ORDER_DELIVERED,}
 
-    PaymentMethod paymentMethod;
+    Map<FoodItem, Integer> map = new HashMap<>();
 
-    ArrayList<FoodItem> foodList = new ArrayList<>();
+    private int orderID;
+    private String customerName;
+    private long mobileNumber;
+    private String deliveryAddress;
+    private int totalPrice;
+    private PaymentMethods paymentMethods;
+    private OrderStatus orderStatus = OrderStatus.WAITING;
+    private java.util.Date dateAndTime;
 
-    Integer quantity;
+    @Override
+    public String toString() {
+        return "\nOrder : " + "\n" +
+                "customerName = " + customerName + "\n" +
+                "mobileNumber = " + mobileNumber + "\n" +
+                "deliveryAddress = " + deliveryAddress + "\n" +
+                "totalPrice = " + totalPrice + "\n" +
+                "paymentMethods = " + paymentMethods + "\n" +
+                "orderStatus = " + orderStatus + "\n" +
+                "dateAndTime = " + dateAndTime + "\n";
+    }
 
-    Map<FoodItem, Integer> map = new HashMap();
+    public int setTotalPrice() {
+        totalPrice = 0;
+        totalPrice = map.entrySet().stream().map(entry -> entry.getKey().price * entry.getValue()).reduce(0, Integer::sum);
+        return totalPrice;
+    }
 
-    int totalPrice;
-    LocalTime orderTime;
+    public Date getDateAndTime() {
+        return dateAndTime;
+    }
+
+    public void setDateAndTime(Date dateAndTime) {
+        this.dateAndTime = dateAndTime;
+    }
+
+    public void setPaymentMethods(PaymentMethods paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public long getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(long mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
 }
+
